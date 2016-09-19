@@ -1,17 +1,8 @@
 require_relative 'test_helper'
 
 describe CreditCardDetector do
-
-
   before do
     CreditCardDetector.reload!
-  end
-
-  describe 'MMI' do
-    it 'should detect issuer category' do
-      d = detector(VALID_NUMBERS[:visa].first)
-      d.issuer_category.must_equal CreditCardDetector::Mmi::ISSUER_CATEGORIES[d.number[0]]
-    end
   end
 
   describe 'Luhn#valid?' do

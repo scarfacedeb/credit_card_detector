@@ -4,8 +4,6 @@
 module CreditCardDetector
   class Detector
 
-    include Mmi
-
     class_attribute :brands
     self.brands = {}
 
