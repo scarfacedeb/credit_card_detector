@@ -8,9 +8,9 @@ describe 'ActiveModel Validator' do
     it 'should be valid if brands from proc valid' do
        card = model.dup
        card.card_type = 'Master Card'
-       card.number6 =  CreditCardValidations::Factory.random(:visa)
+       card.number6 =  CreditCardDetector::Factory.random(:visa)
        card.valid?.must_equal false
-       card.number6 =  CreditCardValidations::Factory.random(:mastercard)
+       card.number6 =  CreditCardDetector::Factory.random(:mastercard)
        card.valid?.must_equal true
     end
   end

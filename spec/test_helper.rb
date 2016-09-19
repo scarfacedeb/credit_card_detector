@@ -12,7 +12,7 @@ $:.unshift(specs)
 
 I18n.config.enforce_available_locales = true
 
-require 'credit_card_validations'
+require 'credit_card_detector'
 require 'models/credit_card'
 
 VALID_NUMBERS = YAML.load_file File.join(File.dirname(__FILE__), 'fixtures/valid_cards.yml')

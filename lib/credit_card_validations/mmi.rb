@@ -1,4 +1,4 @@
-# == CreditCardValidations Mmi
+# == CreditCardDetector Mmi
 #
 # Implements Major Industry Identifier (MII) detection
 #
@@ -19,7 +19,7 @@
 # and Sun Oil and Exxon are in the petroleum category.
 
 
-module CreditCardValidations
+module CreditCardDetector
   module Mmi
 
     ISSUER_CATEGORIES = {

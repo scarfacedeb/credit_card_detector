@@ -1,14 +1,14 @@
-# == CreditCardValidations Factory
+# == CreditCardDetector Factory
 # Generates card number that passes validation
 #
 # #random
-#   CreditCardValidations::Factory.random
+#   CreditCardDetector::Factory.random
 # #or particular brand
-#   CreditCardValidations::Factory.random(:maestro) # "6010430241237266856"
+#   CreditCardDetector::Factory.random(:maestro) # "6010430241237266856"
 #
 #
 #
-module CreditCardValidations
+module CreditCardDetector
   class Factory
     class << self
       def random(brand = nil)

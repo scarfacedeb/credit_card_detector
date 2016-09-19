@@ -1,16 +1,16 @@
 require_relative 'test_helper'
 
-describe CreditCardValidations do
+describe CreditCardDetector do
 
 
   before do
-    CreditCardValidations.reload!
+    CreditCardDetector.reload!
   end
 
   describe 'MMI' do
     it 'should detect issuer category' do
       d = detector(VALID_NUMBERS[:visa].first)
-      d.issuer_category.must_equal CreditCardValidations::Mmi::ISSUER_CATEGORIES[d.number[0]]
+      d.issuer_category.must_equal CreditCardDetector::Mmi::ISSUER_CATEGORIES[d.number[0]]
     end
   end
 
@@ -19,17 +19,17 @@ describe CreditCardValidations do
       detector(VALID_NUMBERS[:unionpay].first)
     }
     it 'should call Luhn.valid? once' do
-      CreditCardValidations::Luhn.expects(:valid?).with(card_detector.number).once
+      CreditCardDetector::Luhn.expects(:valid?).with(card_detector.number).once
       card_detector.valid?(:visa, :unionpay).must_equal true
     end
 
     it 'should call Luhn.valid? twice' do
-      CreditCardValidations::Luhn.expects(:valid?).with(card_detector.number).twice
+      CreditCardDetector::Luhn.expects(:valid?).with(card_detector.number).twice
       card_detector.valid?(:visa, :mastercard).must_equal false
     end
 
     it 'should not call Luhn.valid?' do
-      CreditCardValidations::Luhn.expects(:valid?).never
+      CreditCardDetector::Luhn.expects(:valid?).never
       card_detector.valid?(:unionpay).must_equal true
     end
 
@@ -66,9 +66,9 @@ describe CreditCardValidations do
   end
 
   it 'should detect by full brand name' do
-    amex = CreditCardValidations::Factory.random(:amex)
+    amex = CreditCardDetector::Factory.random(:amex)
     detector(amex).valid?('American Express').must_equal true
-    visa = CreditCardValidations::Factory.random(:visa)
+    visa = CreditCardDetector::Factory.random(:visa)
     detector(visa).valid?('American Express').must_equal false
   end
 
@@ -109,7 +109,7 @@ describe CreditCardValidations do
       let(:voyager_number) { '869926275400212' }
 
       it 'should validate number as voyager' do
-        CreditCardValidations::Detector.add_brand(:voyager, length: 15, prefixes: '86')
+        CreditCardDetector::Detector.add_brand(:voyager, length: 15, prefixes: '86')
         detector(voyager_number).valid?(:voyager).must_equal true
         detector(voyager_number).voyager?.must_equal true
         detector(voyager_number).brand.must_equal :voyager
@@ -117,7 +117,7 @@ describe CreditCardValidations do
 
       describe 'Add voyager rule' do
         before do
-          CreditCardValidations::Detector.add_brand(:voyager, length: 15, prefixes: '86')
+          CreditCardDetector::Detector.add_brand(:voyager, length: 15, prefixes: '86')
         end
 
         it 'should validate number as voyager' do
@@ -128,7 +128,7 @@ describe CreditCardValidations do
 
         describe 'Remove voyager rule' do
           before do
-            CreditCardValidations::Detector.delete_brand(:voyager)
+            CreditCardDetector::Detector.delete_brand(:voyager)
           end
 
           it 'should not validate number as voyager' do
@@ -142,12 +142,12 @@ describe CreditCardValidations do
     describe 'plugins' do
       [:diners_us, :en_route, :laser].each do |brand|
         it "should support #{brand}" do
-          -> { CreditCardValidations::Factory.random(brand) }.
-            must_raise(CreditCardValidations::Error)
+          -> { CreditCardDetector::Factory.random(brand) }.
+            must_raise(CreditCardDetector::Error)
           custom_number = 'some_number'
           detector(custom_number).respond_to?("#{brand}?").must_equal false
-          require "credit_card_validations/plugins/#{brand}"
-          number = CreditCardValidations::Factory.random(brand)
+          require "credit_card_detector/plugins/#{brand}"
+          number = CreditCardDetector::Factory.random(brand)
           detector(number).valid?("#{brand}".to_sym).must_equal true
           detector(custom_number).respond_to?("#{brand}?").must_equal true
         end
@@ -155,21 +155,21 @@ describe CreditCardValidations do
     end
 
     it 'should raise Error if no brand added before' do
-      -> { CreditCardValidations::Detector::add_rule(:undefined_brand, 20, [20]) }.
-        must_raise(CreditCardValidations::Error)
+      -> { CreditCardDetector::Detector::add_rule(:undefined_brand, 20, [20]) }.
+        must_raise(CreditCardDetector::Error)
     end
   end
 
   def luhn_valid?(number)
-    CreditCardValidations::Luhn.valid?(number)
+    CreditCardDetector::Luhn.valid?(number)
   end
 
   def detector(number)
-    CreditCardValidations::Detector.new(number)
+    CreditCardDetector::Detector.new(number)
   end
 
   def has_luhn_check_rule?(key)
-    CreditCardValidations::Detector.has_luhn_check_rule?(key)
+    CreditCardDetector::Detector.has_luhn_check_rule?(key)
   end
 
 end

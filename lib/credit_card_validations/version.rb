@@ -1,3 +1,4 @@
-module CreditCardValidations
-  VERSION = '3.2.2'
+module CreditCardDetector
+  VERSION = '0.1'
 end
+

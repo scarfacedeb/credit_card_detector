@@ -1,4 +1,4 @@
-module CreditCardValidations
+module CreditCardDetector
   class Error < StandardError
   end
 end

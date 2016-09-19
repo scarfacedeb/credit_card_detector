@@ -1,16 +1,16 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'credit_card_validations/version'
+require 'credit_card_detector/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "credit_card_validations"
-  gem.version       = CreditCardValidations::VERSION
+  gem.name          = "credit_card_detector"
+  gem.version       = CreditCardDetector::VERSION
   gem.authors       = ["Igor"]
   gem.email         = ["fedoronchuk@gmail.com"]
   gem.description   = %q{A ruby gem for validating credit card numbers}
   gem.summary       = "gem should be used for credit card numbers validation, card brands detections, luhn checks"
-  gem.homepage      = "http://fivell.github.io/credit_card_validations/"
+  gem.homepage      = "http://fivell.github.io/credit_card_detector/"
   gem.license     = 'MIT'
 
   gem.files         = `git ls-files`.split($/)

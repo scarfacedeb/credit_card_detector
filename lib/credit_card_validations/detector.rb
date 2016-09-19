@@ -1,7 +1,7 @@
-# == CreditCardValidations Detector
+# == CreditCardDetector Detector
 #
 # class provides credit card number validations
-module CreditCardValidations
+module CreditCardDetector
   class Detector
 
     include Mmi
@@ -80,7 +80,7 @@ module CreditCardValidations
       #
       # add brand
       #
-      #   CreditCardValidations.add_brand(:en_route, {length: 15, prefixes: ['2014', '2149']}, {skip_luhn: true}) #skip luhn
+      #   CreditCardDetector.add_brand(:en_route, {length: 15, prefixes: ['2014', '2149']}, {skip_luhn: true}) #skip luhn
       #
       def add_brand(key, rules, options = {})
 
@@ -109,7 +109,7 @@ module CreditCardValidations
         end.try(:first)
       end
 
-      # CreditCardValidations.delete_brand(:en_route)
+      # CreditCardDetector.delete_brand(:en_route)
       def delete_brand(key)
         key = key.to_sym
         undef_brand_method(key)

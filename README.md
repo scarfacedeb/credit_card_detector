@@ -1,14 +1,14 @@
-# CreditCardValidations
+# CreditCardDetector
 
-[![Build Status](http://img.shields.io/travis/Fivell/credit_card_validations.svg)](https://travis-ci.org/Fivell/credit_card_validations)
-[![Dependency Status](http://img.shields.io/gemnasium/Fivell/credit_card_validations.svg)](https://gemnasium.com/Fivell/credit_card_validations)
-[![Coverage Status](http://img.shields.io/coveralls/Fivell/credit_card_validations.svg)](https://coveralls.io/r/Fivell/credit_card_validations)
-[![Code Climate](http://img.shields.io/codeclimate/github/Fivell/credit_card_validations.svg)](https://codeclimate.com/github/Fivell/credit_card_validations)
-[![Gem Version](http://img.shields.io/gem/v/credit_card_validations.svg)](https://rubygems.org/gems/credit_card_validations)
+[![Build Status](http://img.shields.io/travis/Fivell/credit_card_detector.svg)](https://travis-ci.org/Fivell/credit_card_detector)
+[![Dependency Status](http://img.shields.io/gemnasium/Fivell/credit_card_detector.svg)](https://gemnasium.com/Fivell/credit_card_detector)
+[![Coverage Status](http://img.shields.io/coveralls/Fivell/credit_card_detector.svg)](https://coveralls.io/r/Fivell/credit_card_detector)
+[![Code Climate](http://img.shields.io/codeclimate/github/Fivell/credit_card_detector.svg)](https://codeclimate.com/github/Fivell/credit_card_detector)
+[![Gem Version](http://img.shields.io/gem/v/credit_card_detector.svg)](https://rubygems.org/gems/credit_card_detector)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://Fivell.mit-license.org)
 
 
-Gem adds validator  to check whether or not a given number actually falls within the ranges of possible numbers prior to performing such verification, and, as such, CreditCardValidations simply verifies that the credit card number provided is well-formed.
+Gem adds validator  to check whether or not a given number actually falls within the ranges of possible numbers prior to performing such verification, and, as such, CreditCardDetector simply verifies that the credit card number provided is well-formed.
 
 More info about card BIN numbers http://en.wikipedia.org/wiki/Bank_card_number
 
@@ -16,7 +16,7 @@ More info about card BIN numbers http://en.wikipedia.org/wiki/Bank_card_number
 
 Add this line to your application's Gemfile:
 
-    gem 'credit_card_validations'
+    gem 'credit_card_detector'
 
 And then execute:
 
@@ -24,7 +24,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install credit_card_validations
+    $ gem install credit_card_detector
 
 ## Usage
 
@@ -63,7 +63,7 @@ The following are supported with with plugins
 ### Examples using string monkey patch
 
 ```ruby
-    require 'credit_card_validations/string'
+    require 'credit_card_detector/string'
     '5274 5763 9425 9961'.credit_card_brand   #=> :mastercard
     '5274 5763 9425 9961'.credit_card_brand_name   #=> "MasterCard"
     '5274 5763 9425 9961'.valid_credit_card_brand?(:mastercard, :visa) #=> true
@@ -89,11 +89,11 @@ for all known brands
     validates :number, presence: true, credit_card_number: true
 ```
 
-### Examples using CreditCardValidations::Detector class
+### Examples using CreditCardDetector::Detector class
 
 ```ruby	
     number = "4111111111111111"
-    detector = CreditCardValidations::Detector.new(number)
+    detector = CreditCardDetector::Detector.new(number)
     detector.brand #:visa
     detector.visa? #true
     detector.valid?(:mastercard,:maestro) #false
@@ -106,41 +106,41 @@ passing name,length(integer/array of integers) and prefix(string/array of string
 Example
 
 ```ruby	
-    CreditCardValidations.add_brand(:voyager, {length: 15, prefixes: '86'})
+    CreditCardDetector.add_brand(:voyager, {length: 15, prefixes: '86'})
     voyager_test_card_number = '869926275400212'
-    CreditCardValidations::Detector.new(voyager_test_card_number).brand #:voyager
-    CreditCardValidations::Detector.new(voyager_test_card_number).voyager? #true
+    CreditCardDetector::Detector.new(voyager_test_card_number).brand #:voyager
+    CreditCardDetector::Detector.new(voyager_test_card_number).voyager? #true
 ```
 
 ### Remove brands also supported
 
 ```ruby
-    CreditCardValidations.delete_brand(:maestro)
+    CreditCardDetector.delete_brand(:maestro)
 ```
 
 ### Check luhn
 
 ```ruby	
-    CreditCardValidations::Detector.new(@credit_card_number).valid_luhn?
+    CreditCardDetector::Detector.new(@credit_card_number).valid_luhn?
     #or
-    CreditCardValidations::Luhn.valid?(@credit_card_number)
+    CreditCardDetector::Luhn.valid?(@credit_card_number)
 ```  
 
 ### Generate credit card numbers that pass validation
 
 ```ruby
- CreditCardValidations::Factory.random(:amex)
+ CreditCardDetector::Factory.random(:amex)
  # => "348051773827666"
- CreditCardValidations::Factory.random(:maestro)
+ CreditCardDetector::Factory.random(:maestro)
  # => "6010430241237266856"
 ```
 
 ### Plugins 
 
   ```ruby 
-  require 'credit_card_validations/plugins/en_route'
-  require 'credit_card_validations/plugins/laser'
-  require 'credit_card_validations/plugins/diners_us'
+  require 'credit_card_detector/plugins/en_route'
+  require 'credit_card_detector/plugins/laser'
+  require 'credit_card_detector/plugins/diners_us'
 
   ```
 

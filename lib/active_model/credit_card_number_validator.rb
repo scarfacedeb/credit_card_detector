@@ -47,7 +47,7 @@ module ActiveModel
       end
 
       def credit_card_valid?(number, brands = [])
-        CreditCardValidations::Detector.new(number).valid?(*brands)
+        CreditCardDetector::Detector.new(number).valid?(*brands)
       end
 
       protected
@@ -58,7 +58,7 @@ module ActiveModel
         elsif options.has_key?(:only)
           Array(options[:only])
         elsif options.has_key?(:except)
-          Array(CreditCardValidations::Detector.brands.keys) - Array(options[:except])
+          Array(CreditCardDetector::Detector.brands.keys) - Array(options[:except])
         else
           []
         end

@@ -1,18 +1,18 @@
-require 'credit_card_validations/version'
-require 'credit_card_validations/error'
+require 'credit_card_detector/version'
+require 'credit_card_detector/error'
 require 'active_model'
 require 'active_support/core_ext'
 require 'active_model/validations'
 require 'active_model/credit_card_number_validator'
 require 'yaml'
 
-module CreditCardValidations
+module CreditCardDetector
   extend ActiveSupport::Autoload
-  autoload :VERSION, 'credit_card_validations/version'
-  autoload :Luhn, 'credit_card_validations/luhn'
-  autoload :Detector, 'credit_card_validations/detector'
-  autoload :Factory, 'credit_card_validations/factory'
-  autoload :Mmi, 'credit_card_validations/mmi'
+  autoload :VERSION, 'credit_card_detector/version'
+  autoload :Luhn, 'credit_card_detector/luhn'
+  autoload :Detector, 'credit_card_detector/detector'
+  autoload :Factory, 'credit_card_detector/factory'
+  autoload :Mmi, 'credit_card_detector/mmi'
 
 
   def self.add_brand(key, rules, options = {})
@@ -30,7 +30,7 @@ module CreditCardValidations
 
 end
 
-CreditCardValidations.reload!
+CreditCardDetector.reload!
 
 
 

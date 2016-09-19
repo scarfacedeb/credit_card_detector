@@ -1,10 +1,10 @@
 require_relative 'test_helper'
-require 'credit_card_validations/string'
+require 'credit_card_detector/string'
 
 describe 'String ext' do
 
-  let(:mastercard) { CreditCardValidations::Factory.random(:mastercard) }
-  let(:visa) { CreditCardValidations::Factory.random(:visa) }
+  let(:mastercard) { CreditCardDetector::Factory.random(:mastercard) }
+  let(:visa) { CreditCardDetector::Factory.random(:visa) }
   let(:invalid) { INVALID_NUMBERS.sample }
 
   it 'should allow detect brand for mastercard' do
