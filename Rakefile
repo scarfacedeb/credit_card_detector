@@ -10,4 +10,5 @@ Rake::TestTask.new("specs") { |t|
   t.pattern = 'spec/*_spec.rb'
   t.verbose = true
   t.warning = true
+  t.libs << "lib" << "spec"
 }
