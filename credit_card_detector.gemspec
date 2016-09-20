@@ -6,11 +6,11 @@ require "credit_card_detector/version"
 Gem::Specification.new do |gem|
   gem.name          = "credit_card_detector"
   gem.version       = CreditCardDetector::VERSION
-  gem.authors       = ["Igor"]
-  gem.email         = ["fedoronchuk@gmail.com"]
+  gem.authors       = ["Andrew Volozhanin", "Igor"]
+  gem.email         = ["scarfacedeb@gmail.com", "fedoronchuk@gmail.com"]
   gem.description   = %q{A ruby gem for validating credit card numbers}
-  gem.summary       = "gem should be used for credit card numbers validation, card brands detections, luhn checks"
-  gem.homepage      = "http://fivell.github.io/credit_card_detector/"
+  gem.summary       = "Gem provides basic credit card number validation and type detection without any extra dependencies"
+  gem.homepage      = ""
   gem.license     = "MIT"
 
   gem.files         = `git ls-files`.split($/)
