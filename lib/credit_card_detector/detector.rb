@@ -26,6 +26,10 @@ module CreditCardDetector
       @brand ||= Data.brands.find { |brand| matches_brand? brand }
     end
 
+    def brand_id
+      brand.id if brand
+    end
+
     def brand_name
       brand.name if brand
     end

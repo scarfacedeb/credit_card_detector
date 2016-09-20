@@ -47,5 +47,32 @@ module CreditCardDetector
         end
       end
     end
+
+    describe "#brand" do
+      it "returns matched brand for valid number" do
+        detector = Detector.new("4012888888881881")
+        assert_instance_of Brand, detector.brand
+        assert_equal detector.brand.id, :visa
+      end
+
+      it "returns nil when number is invalid" do
+        detector = Detector.new("40128888")
+        assert_equal detector.brand, nil
+      end
+    end
+
+    describe "#brand_id" do
+      it "returns brand id" do
+        detector = Detector.new("4012888888881881")
+        assert_equal detector.brand_id, :visa
+      end
+    end
+
+    describe "#brand_name" do
+      it "returns brand name" do
+        detector = Detector.new("4012888888881881")
+        assert_equal detector.brand_name, "Visa"
+      end
+    end
   end
 end
