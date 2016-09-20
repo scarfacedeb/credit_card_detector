@@ -11,7 +11,7 @@ module CreditCardDetector
       end
 
       def ids
-        @ids ||= data.map(&:id)
+        @ids ||= brands.map(&:id)
       end
 
       def raw_data

@@ -6,7 +6,7 @@ module CreditCardDetector
     end
 
     def matches?(number)
-      matches_length?(number) && matches_prefix?(number)
+      matches_length?(number.to_s) && matches_prefix?(number.to_s)
     end
 
     def matches_length?(number)
@@ -14,13 +14,13 @@ module CreditCardDetector
     end
 
     def matches_prefix?(number)
-      @regexp.match number
+      !!(number =~ @regexp)
     end
 
     private
 
     def compile_regexp(prefixes)
-      Regexp.new("^#{prefixes.join("|")}")
+      Regexp.new("^(#{prefixes.join("|")})")
     end
   end
 end

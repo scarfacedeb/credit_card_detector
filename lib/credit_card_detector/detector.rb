@@ -8,11 +8,13 @@ module CreditCardDetector
     end
 
     def valid?(*brands)
+      brands.compact!
+
       if brands.empty?
         !brand.nil?
       else
         validate_brands(brands)
-        brands.include?(brand)
+        brands.include?(brand.id)
       end
     end
 
