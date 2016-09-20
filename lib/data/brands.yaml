@@ -1,18 +1,18 @@
 ---
-visa:
-  name: Visa
-  rules:
-  - length:
+:visa:
+  :name: Visa
+  :rules:
+  - :length:
     - 13
     - 16
-    prefixes:
+    :prefixes:
     - '4'
-mastercard:
-  name: MasterCard
-  rules:
-  - length:
+:mastercard:
+  :name: MasterCard
+  :rules:
+  - :length:
     - 16
-    prefixes:
+    :prefixes:
     - '2221'
     - '2222'
     - '2223'
@@ -40,20 +40,20 @@ mastercard:
     - '53'
     - '54'
     - '55'
-amex:
-  name: American Express
-  rules:
-  - length:
+:amex:
+  :name: American Express
+  :rules:
+  - :length:
     - 15
-    prefixes:
+    :prefixes:
     - '34'
     - '37'
-diners:
-  name: Diners Club
-  rules:
-  - length:
+:diners:
+  :name: Diners Club
+  :rules:
+  - :length:
     - 14
-    prefixes:
+    :prefixes:
     - '300'
     - '301'
     - '302'
@@ -62,12 +62,12 @@ diners:
     - '305'
     - '36'
     - '38'
-discover:
-  name: Discover
-  rules:
-  - length:
+:discover:
+  :name: Discover
+  :rules:
+  - :length:
     - 16
-    prefixes:
+    :prefixes:
     - '6011'
     - '644'
     - '645'
@@ -76,13 +76,13 @@ discover:
     - '648'
     - '649'
     - '65'
-jcb:
-  name: JCB
-  rules:      
-  - length:
+:jcb:
+  :name: JCB
+  :rules:      
+  - :length:
     - 15
     - 16
-    prefixes:
+    :prefixes:
     - '3528'
     - '3529'
     - '353'
@@ -91,42 +91,43 @@ jcb:
     - '356'
     - '357'
     - '358'
-  - length:
+  - :length:
     - 15
-    prefixes:
+    :prefixes:
     - '1800'
     - '2131'
-  - length:
+  - :length:
     - 19
-    prefixes:
+    :prefixes:
     - '357266'
-solo:
-  name: Solo
-  rules:
-  - length:
+:solo:
+  :name: Solo
+  :rules:
+  - :length:
     - 16
     - 18
     - 19
-    prefixes:
+    :prefixes:
     - '6334'
     - '6767'
-switch:
-  rules:
-  - length:
+:switch:
+  :name: Switch
+  :rules:
+  - :length:
     - 16
     - 18
     - 19
-    prefixes:
+    :prefixes:
     - '633110'
     - '633312'
     - '633304'
     - '633303'
     - '633301'
     - '633300'
-maestro:
-  name: Switch
-  rules:
-  - length:
+:maestro:
+  :name: Maestro
+  :rules:
+  - :length:
     - 12
     - 13
     - 14
@@ -135,7 +136,7 @@ maestro:
     - 17
     - 18
     - 19
-    prefixes:
+    :prefixes:
     - '500'
     - '5010'
     - '5011'
@@ -195,35 +196,35 @@ maestro:
     - '6769'
     - '6771'
     - '679'
-unionpay:
-  name: China UnionPay
-  rules:
-  - length:
+:unionpay:
+  :name: China UnionPay
+  :rules:
+  - :length:
     - 16
     - 17
     - 18
     - 19
-    prefixes:
+    :prefixes:
     - '622'
     - '624'
     - '625'
     - '626'
     - '628'
-  options:
-    skip_luhn: true
-dankort:
-  name: Dankort
-  rules:
-  - length:
+  :options:
+    :skip_luhn: true
+:dankort:
+  :name: Dankort
+  :rules:
+  - :length:
     - 16
-    prefixes:
+    :prefixes:
     - '5019'
-rupay:
-  name: Rupay
-  rules:
-  - length:
+:rupay:
+  :name: Rupay
+  :rules:
+  - :length:
     - 16
-    prefixes:
+    :prefixes:
     - '6061'
     - '6062'
     - '6063'
@@ -235,21 +236,21 @@ rupay:
     - '6069'
     - '607'
     - '608'
-  options:
-    skip_luhn: true
-hipercard:
-  name: Hipercard
-  rules:
-  - length:
+  :options:
+    :skip_luhn: true
+:hipercard:
+  :name: Hipercard
+  :rules:
+  - :length:
     - 19
-    prefixes:
+    :prefixes:
     - '384'
-elo:
-  name: Elo
-  rules:
-  - length:
+:elo:
+  :name: Elo
+  :rules:
+  - :length:
     - 16
-    prefixes:
+    :prefixes:
     - '4011'
     - '438935'
     - '451416'
@@ -276,5 +277,5 @@ elo:
     - '509074'
     - '636297'
     - '63636'
-  options:
-    skip_luhn: true
+  :options:
+    :skip_luhn: true
