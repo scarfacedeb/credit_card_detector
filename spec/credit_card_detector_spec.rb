@@ -1,166 +1,51 @@
-require_relative 'test_helper'
+require "test_helper"
+require "credit_card_detector/detector"
 
-describe CreditCardDetector do
-  before do
-    CreditCardDetector.reload!
-  end
+module CreditCardDetector
+  describe Detector do
+    describe "#valid?" do
+      def perform(numbers, expected, *brands)
+        numbers.each do |number|
+          valid = Detector.new(number).valid?(*brands)
+          assert_equal valid, expected, number
+        end
+      end
 
-  describe 'Luhn#valid?' do
-    let(:card_detector) {
-      detector(VALID_NUMBERS[:unionpay].first)
-    }
-    it 'should call Luhn.valid? once' do
-      CreditCardDetector::Luhn.expects(:valid?).with(card_detector.number).once
-      card_detector.valid?(:visa, :unionpay).must_equal true
-    end
+      it "validates valid numbers against all of the available brands" do
+        VALID_NUMBERS.each do |_, numbers|
+          perform numbers, true
+        end
+      end
 
-    it 'should call Luhn.valid? twice' do
-      CreditCardDetector::Luhn.expects(:valid?).with(card_detector.number).twice
-      card_detector.valid?(:visa, :mastercard).must_equal false
-    end
+      it "validates invalid numbers against all of the available brands" do
+        perform INVALID_NUMBERS, false
+      end
 
-    it 'should not call Luhn.valid?' do
-      CreditCardDetector::Luhn.expects(:valid?).never
-      card_detector.valid?(:unionpay).must_equal true
-    end
+      it "returns true when numbers belong to the given brand" do
+        visa = VALID_NUMBERS.fetch(:visa)
+        perform visa, true, :visa
+      end
 
-  end
+      it "returns false when numbers belong to another brand" do
+        mastercard = VALID_NUMBERS.fetch(:mastercard)
+        perform mastercard, false, :visa
+      end
 
+      it "validates number against multiple brands" do
+        visa = VALID_NUMBERS.fetch(:visa)
+        mastercard = VALID_NUMBERS.fetch(:mastercard)
+        maestro = VALID_NUMBERS.fetch(:maestro)
 
-  it 'should check luhn' do
-    VALID_NUMBERS.each do |brand, card_numbers|
-      if has_luhn_check_rule?(brand)
-        card_numbers.each do |number|
-          luhn_valid?(detector(number).number).must_equal true
+        perform (visa + maestro), true, :visa, :maestro, :jcb
+        perform mastercard, false, :visa, :rupay
+      end
+
+      describe "when brand doesn't support luhn check" do
+        it "returns true when number fails luhn check" do
+          unionpay = VALID_NUMBERS.fetch(:unionpay)
+          perform unionpay, true
         end
       end
     end
   end
-
-  it 'should check valid brand' do
-    VALID_NUMBERS.each do |brand, card_numbers|
-      card_numbers.each do |card_number|
-        detector(card_number).send("#{brand}?").must_equal true
-        detector(card_number).brand.must_equal brand
-      end
-    end
-  end
-
-  it 'should check if card invalid' do
-    INVALID_NUMBERS.each do |card_number|
-      detector(card_number).valid?.must_equal false
-      detector(card_number).brand.must_be_nil
-      VALID_NUMBERS.keys.each do |brand|
-        detector(card_number).send("#{brand}?").must_equal false
-      end
-    end
-  end
-
-  it 'should detect by full brand name' do
-    amex = CreditCardDetector::Factory.random(:amex)
-    detector(amex).valid?('American Express').must_equal true
-    visa = CreditCardDetector::Factory.random(:visa)
-    detector(visa).valid?('American Express').must_equal false
-  end
-
-  it 'should support multiple brands for single check' do
-    VALID_NUMBERS.slice(:visa, :mastercard).each do |key, value|
-      detector(value.first).brand(:visa, :mastercard).must_equal key
-    end
-
-    VALID_NUMBERS.except(:visa, :mastercard).each do |_, value|
-      detector(value.first).brand(:visa, :mastercard).must_be_nil
-    end
-  end
-
-  it 'should check if valid brand without arguments' do
-    VALID_NUMBERS.each do |key, value|
-      value.each do |card_number|
-        detector(card_number).valid?(key).must_equal true
-        assert detector(card_number).valid?.must_equal true
-      end
-    end
-  end
-
-  it 'should not be valid? if wrong brand' do
-    detector(VALID_NUMBERS[:visa].first).valid?(:mastercard).must_equal false
-    detector(VALID_NUMBERS[:mastercard].first).valid?(:visa).must_equal false
-  end
-
-  it 'should  be valid? if right brand' do
-    detector(VALID_NUMBERS[:visa].first).valid?(:mastercard, :visa).must_equal true
-    detector(VALID_NUMBERS[:visa].first).valid?(:mastercard, :amex).must_equal false
-  end
-
-
-  describe 'adding/removing brand' do
-
-    describe 'adding rules' do
-
-      let(:voyager_number) { '869926275400212' }
-
-      it 'should validate number as voyager' do
-        CreditCardDetector::Detector.add_brand(:voyager, length: 15, prefixes: '86')
-        detector(voyager_number).valid?(:voyager).must_equal true
-        detector(voyager_number).voyager?.must_equal true
-        detector(voyager_number).brand.must_equal :voyager
-      end
-
-      describe 'Add voyager rule' do
-        before do
-          CreditCardDetector::Detector.add_brand(:voyager, length: 15, prefixes: '86')
-        end
-
-        it 'should validate number as voyager' do
-          detector(voyager_number).valid?(:voyager).must_equal true
-          detector(voyager_number).voyager?.must_equal true
-          detector(voyager_number).brand.must_equal :voyager
-        end
-
-        describe 'Remove voyager rule' do
-          before do
-            CreditCardDetector::Detector.delete_brand(:voyager)
-          end
-
-          it 'should not validate number as voyager' do
-            detector(voyager_number).respond_to?(:voyager?).must_equal false
-            detector(voyager_number).brand.must_be_nil
-          end
-        end
-      end
-    end
-
-    describe 'plugins' do
-      [:diners_us, :en_route, :laser].each do |brand|
-        it "should support #{brand}" do
-          -> { CreditCardDetector::Factory.random(brand) }.
-            must_raise(CreditCardDetector::Error)
-          custom_number = 'some_number'
-          detector(custom_number).respond_to?("#{brand}?").must_equal false
-          require "credit_card_detector/plugins/#{brand}"
-          number = CreditCardDetector::Factory.random(brand)
-          detector(number).valid?("#{brand}".to_sym).must_equal true
-          detector(custom_number).respond_to?("#{brand}?").must_equal true
-        end
-      end
-    end
-
-    it 'should raise Error if no brand added before' do
-      -> { CreditCardDetector::Detector::add_rule(:undefined_brand, 20, [20]) }.
-        must_raise(CreditCardDetector::Error)
-    end
-  end
-
-  def luhn_valid?(number)
-    CreditCardDetector::Luhn.valid?(number)
-  end
-
-  def detector(number)
-    CreditCardDetector::Detector.new(number)
-  end
-
-  def has_luhn_check_rule?(key)
-    CreditCardDetector::Detector.has_luhn_check_rule?(key)
-  end
-
 end
