@@ -7,13 +7,13 @@ module CreditCardDetector
       it "returns true when number is valid" do
         LUHN_ENABLED.each do |brand, card_numbers|
           card_numbers.each do |number|
-            Luhn.valid?(number.to_s.tr("- ", "")).must_equal true
+            assert_equal Luhn.valid?(number.to_s.tr("- ", "")), true
           end
         end
       end
 
       it "returns false when number is invalid" do
-        Luhn.valid?("4111111111111110").must_equal false
+        assert_equal Luhn.valid?("4111111111111110"), false
       end
     end
   end

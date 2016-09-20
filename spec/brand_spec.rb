@@ -10,9 +10,9 @@ module CreditCardDetector
       describe "when brand doesn't have any rules" do
         let(:rules) { [] }
         it "doesn't matches any number" do
-          brand.matches?("1234").must_equal false
-          brand.matches?("").must_equal false
-          brand.matches?("4012888888881881").must_equal false
+          assert_equal brand.matches?("1234"), false
+          assert_equal brand.matches?(""), false
+          assert_equal brand.matches?("4012888888881881"), false
         end
       end
 
@@ -24,12 +24,12 @@ module CreditCardDetector
         it "matches valid numbers" do
           numbers = VALID_NUMBERS.fetch(:visa)
           numbers.each do |number|
-            brand.matches?(number.tr("- ", "")).must_equal true
+            assert_equal brand.matches?(number.tr("- ", "")), true
           end
         end
 
         it "doesn't match invalid numbers" do
-          brand.matches?("42222222222221").must_equal false
+          assert_equal brand.matches?("42222222222221"), false
         end
       end
 
@@ -45,12 +45,12 @@ module CreditCardDetector
         it "matches valid numbers" do
           numbers = VALID_NUMBERS.fetch(:jcb)
           numbers.each do |number|
-            brand.matches?(number.tr("- ", "")).must_equal true
+            assert_equal brand.matches?(number.tr("- ", "")), true
           end
         end
 
         it "doesn't match invalid numbers" do
-          brand.matches?("1800016382773921").must_equal false
+          assert_equal brand.matches?("1800016382773921"), false
         end
       end
     end
@@ -58,12 +58,12 @@ module CreditCardDetector
     describe "#luhn?" do
       it "returns true when NO skip_luhn option is set on brand" do
         brand = Brand.new(:maestro, name: "maestro", options: {}, rules: [])
-        brand.luhn?.must_equal true
+        assert_equal brand.luhn?, true
       end
 
       it "returns false when skip_luhn option is set on brand" do
         brand = Brand.new(:maestro, name: "rupay", options: { skip_luhn: true }, rules: [])
-        brand.luhn?.must_equal false
+        assert_equal brand.luhn?, false
       end
     end
   end
