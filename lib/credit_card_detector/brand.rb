@@ -2,13 +2,16 @@ require "credit_card_detector/rule"
 
 module CreditCardDetector
   class Brand
-    attr_reader :id, :name, :options
+    attr_reader :id, :options
 
     def initialize(id, data)
       @id = id
-      @name = data.fetch(:name)
       @raw_rules = data.fetch(:rules)
       @options = data.fetch(:options, {})
+    end
+
+    def name
+      options.fetch(:brand_name)
     end
 
     def matches?(number)
@@ -16,7 +19,7 @@ module CreditCardDetector
     end
 
     def luhn?
-      !@options.fetch(:skip_luhn, false)
+      !options.fetch(:skip_luhn, false)
     end
 
     def rules
