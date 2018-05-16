@@ -1,4 +1,4 @@
-# CreditCardDetector
+# Credit card detector
 
 Gem provides credit card number validator and type detector. 
 
@@ -71,5 +71,5 @@ The following issuing institutes are accepted:
 
 ## Original version
 
-[credit_card_validations](https://github.com/Fivell/credit_card_validations) - provides more extended API, but dependes on activemodel and activesupport.
+[credit_card_validations](https://github.com/Fivell/credit_card_validations) - provides more extended API, but depends on activemodel and activesupport.
 
