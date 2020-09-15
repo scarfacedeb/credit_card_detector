@@ -303,6 +303,7 @@
     - '608'
   :options:
     :skip_luhn: true
+    :brand_name: Rupay
 :hipercard:
   :rules:
   - :length:
