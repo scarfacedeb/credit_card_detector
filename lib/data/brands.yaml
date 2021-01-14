@@ -471,6 +471,9 @@
     - '2202'
     - '2203'
     - '2204'
+  :options:
+    :brand_name: Mir
+    :skip_luhn: true
 :discover:
   :rules:
   - :length:
