@@ -216,6 +216,9 @@
     - '6769'
     - '6771'
     - '679'
+  :options:
+    :skip_luhn: true
+    :brand_name: Maestro
 :unionpay:
   :rules:
   - :length:
