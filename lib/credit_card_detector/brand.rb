@@ -23,7 +23,7 @@ module CreditCardDetector
     end
 
     def rules
-      @rules ||= @raw_rules.map { |rule| Rule.new rule }
+      @rules ||= @raw_rules.map { |rule| Rule.new(length: rule[:length], prefixes: rule[:prefixes]) }
     end
   end
 end
